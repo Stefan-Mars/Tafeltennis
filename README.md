@@ -1,6 +1,6 @@
 # Tafeltennis
 
-### Kloon de repository
+### Installatie
 
 Kloon de repository met het volgende commando in de command prompt:
 
