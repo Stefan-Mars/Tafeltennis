@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Tafeltennis.StatsPage">
+    <StackLayout x:Name="layout">
+        <Entry x:Name="playerName"
+               TextColor="Black"
+               Margin="10"
+               WidthRequest="300"
+               HeightRequest="50" Placeholder="Enter text here" />
+
+        <Button Text="Create" Clicked="CreatePlayerButton_Clicked" HorizontalOptions="CenterAndExpand" Grid.Column="0" />
+
+    
+
+        <Grid x:Name="playerTable" HorizontalOptions="CenterAndExpand" Margin="10">
+
+
+            <Label Text="Name" FontAttributes="Bold" Grid.Column="0"></Label>
+            <Label Text="Wins" FontAttributes="Bold" Grid.Column="1"></Label>
+            <Frame BackgroundColor="Transparent" Grid.Column="2"  HeightRequest="20" Margin="0">
+                <Image Source="refresh.png" x:Name="myImage">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="RefreshButton_Clicked" />
+                    </Image.GestureRecognizers>
+                </Image>
+            </Frame>
+
+
+        </Grid>
+        
+        
+    </StackLayout>
+
+</ContentPage>

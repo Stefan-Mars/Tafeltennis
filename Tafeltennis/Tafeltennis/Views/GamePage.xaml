@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Tafeltennis.GamePage">
+    <Grid x:Name="ConfettiContainer" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Button x:Name="BlueButton" Grid.Row="0" Clicked="OnButtonClicked" BackgroundColor="#2563eb" TextColor="white" FontSize="40" TextTransform = "None"/>
+            <Button x:Name="ClearButton" Grid.Row="1" Text="Clear" Clicked="Clear" BackgroundColor="white" TextColor="black" FontSize="20" VerticalOptions="FillAndExpand" />
+            <Button x:Name="RedButton" Grid.Row="2" Clicked="OnButtonClicked" BackgroundColor="#dc2626" TextColor="white" FontSize="40" TextTransform = "None"/>
+
+        </Grid>
+    </Grid>
+    
+
+</ContentPage>
