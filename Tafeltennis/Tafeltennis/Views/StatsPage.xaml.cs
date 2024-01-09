@@ -83,11 +83,11 @@ namespace Tafeltennis
         {
 
            
-            string inputValue = playerName.Text;
+            string inputValue = PlayerName.Text;
             var playerService = new PlayerService();
             var newPlayer = new Player() { Id = "", Name = inputValue, Wins = "0", };
             await playerService.CreatePlayerAsync(newPlayer);
-            playerName.Text = string.Empty;
+            PlayerName.Text = string.Empty;
             LoadPlayers();
 
 
@@ -112,7 +112,7 @@ namespace Tafeltennis
         {
             try
             {
-                if (!string.IsNullOrEmpty(playerName.Text))
+                if (!string.IsNullOrEmpty(PlayerName.Text))
                 {
                     await MakePlayer();
                     await ShowFlashMessage("Player created succesfully");
@@ -168,9 +168,9 @@ namespace Tafeltennis
                 TextColor = Color.Black,
                 FontSize = 20
             };
-            layout.Children.Add(flashLabel);
+            Layout.Children.Add(flashLabel);
             await Task.Delay(2000);
-            layout.Children.Remove(flashLabel);
+            Layout.Children.Remove(flashLabel);
         }
 
     }

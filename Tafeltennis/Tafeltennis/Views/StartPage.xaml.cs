@@ -43,12 +43,7 @@ namespace Tafeltennis
                
 
                 List<string> playerNames = new List<string>();
-                Grid grid = new Grid();
                 grid.Children.Clear();
-                grid.RowDefinitions.Clear();
-                grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
-                grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-                grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
                 Dictionary<string, int> playerDictionary = new Dictionary<string, int>();
 
                 for (int i = 0; i < players.Count; i++)
@@ -122,7 +117,7 @@ namespace Tafeltennis
             }
             catch (Exception ex)
             {
-                await DisplayAlert("Error", ex.Message, "OK");
+                await DisplayAlert("Error", ex.Message + Environment.NewLine + ex, "OK");
             }
         }
         

@@ -2,16 +2,14 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Tafeltennis.StatsPage">
-    <StackLayout x:Name="layout">
-        <Entry x:Name="playerName"
+    <StackLayout x:Name="Layout">
+        <Entry x:Name="PlayerName"
                TextColor="Black"
                Margin="10"
-               WidthRequest="300"
-               HeightRequest="50" Placeholder="Enter text here" />
-
+               Placeholder="Enter player name here" />
         <Button Text="Create" Clicked="CreatePlayerButton_Clicked" HorizontalOptions="CenterAndExpand" Grid.Column="0" />
 
-    
+
 
         <Grid x:Name="playerTable" HorizontalOptions="CenterAndExpand" Margin="10">
 
@@ -25,11 +23,7 @@
                     </Image.GestureRecognizers>
                 </Image>
             </Frame>
-
-
         </Grid>
-        
-        
     </StackLayout>
 
 </ContentPage>

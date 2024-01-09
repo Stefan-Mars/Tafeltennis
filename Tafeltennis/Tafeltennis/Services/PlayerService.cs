@@ -20,7 +20,7 @@ namespace Tafeltennis.Services
 
     public class PlayerService
     {
-        private readonly string BaseUrl = "https://10.0.2.2:443/tafeltennisApi/public/api"; 
+        private readonly string BaseUrl = "https://192.168.101.146/"; 
 
         public HttpClientHandler GetInsecureHandler()
         {
@@ -31,7 +31,7 @@ namespace Tafeltennis.Services
                 string issuer = cert.Issuer;
 
                 Console.WriteLine("Certificate Issuer: " + issuer);
-                if (cert.Issuer.Equals("E=test@example.com, CN=tafeltennis.test, O=\"Example, LLC\", L=New York, S=NY, C=US"))
+                if (cert.Issuer.Equals("CN=TafeltennisAPI, O=Internet Widgits Pty Ltd, S=Some-State, C=AU"))
                     return true;
                 return errors == System.Net.Security.SslPolicyErrors.None;
 
