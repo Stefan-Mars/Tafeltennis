@@ -2,28 +2,24 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Tafeltennis.StatsPage">
-    <StackLayout x:Name="Layout">
-        <Entry x:Name="PlayerName"
-               TextColor="Black"
-               Margin="10"
-               Placeholder="Enter player name here" />
-        <Button Text="Create" Clicked="CreatePlayerButton_Clicked" HorizontalOptions="CenterAndExpand" Grid.Column="0" />
-
-
-
-        <Grid x:Name="playerTable" HorizontalOptions="CenterAndExpand" Margin="10">
-
-
-            <Label Text="Name" FontAttributes="Bold" Grid.Column="0"></Label>
-            <Label Text="Wins" FontAttributes="Bold" Grid.Column="1"></Label>
-            <Frame BackgroundColor="Transparent" Grid.Column="2"  HeightRequest="20" Margin="0">
-                <Image Source="refresh.png" x:Name="myImage">
-                    <Image.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="RefreshButton_Clicked" />
-                    </Image.GestureRecognizers>
-                </Image>
-            </Frame>
-        </Grid>
-    </StackLayout>
-
+    <RefreshView x:Name="refreshView" IsRefreshing="{Binding IsRefreshing}" Command="{Binding RefreshCommand}">
+        <ScrollView>
+            <StackLayout x:Name="Layout">
+                <Entry x:Name="PlayerName" TextColor="Black" Margin="10" Placeholder="Enter player name here" />
+                <Button Text="Create" Clicked="CreatePlayerButton_Clicked" HorizontalOptions="CenterAndExpand" />
+                <CollectionView ItemsSource="{Binding Players}" Margin="10">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid HorizontalOptions="CenterAndExpand" Margin="10">
+                                <Label Text="{Binding Name}" FontAttributes="Bold" Grid.Column="0" />
+                                <Label Text="{Binding Wins}" FontAttributes="Bold" Grid.Column="1" />
+                                <Button ImageSource="delete.png" CommandParameter="{Binding Id}" Clicked="DeletePlayerButton_Clicked"
+                                        BackgroundColor="Transparent" HeightRequest="40" WidthRequest="30" HorizontalOptions="Center" VerticalOptions="Center" Grid.Column="2" />
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </StackLayout>
+        </ScrollView>
+    </RefreshView>
 </ContentPage>

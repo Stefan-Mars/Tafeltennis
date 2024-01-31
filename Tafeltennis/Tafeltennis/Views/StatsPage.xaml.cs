@@ -4,73 +4,38 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Tafeltennis.Services;
-using System.Numerics;
-
+using Tafeltennis.Models;
 
 namespace Tafeltennis
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class StatsPage : ContentPage
     {
+        private readonly StatsViewModel viewModel;
+
         public StatsPage()
         {
             InitializeComponent();
-            LoadPlayers();
+            viewModel = new StatsViewModel();
+            BindingContext = viewModel;
+            InitializePage();
+        }
+        private async void GoToChartButton_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new ChartPage());
         }
 
 
-        private async void LoadPlayers()
+        private async void InitializePage()
+        {
+            await LoadPlayers();
+        }
+
+        private async Task LoadPlayers()
         {
             try
             {
-                var playerService = new PlayerService();
-                List<Player> players = await playerService.GetAllPlayersAsync();
-
-
-                for (int i = playerTable.Children.Count - 1; i >= 0; i--)
-                {
-                    if (Grid.GetRow(playerTable.Children[i]) != 0)
-                    {
-                        playerTable.Children.RemoveAt(i);
-                    }
-                }
-
-                int startingRow = 1;
-
-
-
-                foreach (var player in players)
-                {
-                    Label nameLabel = new Label { Text = player.Name };
-                    Label winsLabel = new Label { Text = player.Wins };
-                    Button deleteButton = new Button {
-                        ImageSource = ImageSource.FromFile("delete.png"),
-                        CommandParameter = player.Id,
-                        BackgroundColor = Color.Transparent,
-                        HeightRequest = 40,
-                        WidthRequest = 30,
-                        HorizontalOptions = LayoutOptions.Center,
-                        VerticalOptions = LayoutOptions.Center,
-                    };
-                    deleteButton.Clicked += async (sender, e) => await DeletePlayerButton_Clicked(sender, e);
-
-
-
-                    Grid.SetColumn(nameLabel, 0);
-                    Grid.SetRow(nameLabel, startingRow);
-
-                    Grid.SetColumn(winsLabel, 1);
-                    Grid.SetRow(winsLabel, startingRow);
-
-                    Grid.SetColumn(deleteButton, 2);
-                    Grid.SetRow(deleteButton, startingRow);
-
-
-                    playerTable.Children.Add(nameLabel);
-                    playerTable.Children.Add(winsLabel);
-                    playerTable.Children.Add(deleteButton);
-                    startingRow++;
-                }
+                await viewModel.LoadPlayers();
             }
             catch (Exception ex)
             {
@@ -78,36 +43,27 @@ namespace Tafeltennis
             }
         }
 
-
         private async Task MakePlayer()
         {
-
-           
             string inputValue = PlayerName.Text;
             var playerService = new PlayerService();
-            var newPlayer = new Player() { Id = "", Name = inputValue, Wins = "0", };
+            var newPlayer = new Player() { Id = "", Name = inputValue, Wins = "0" };
             await playerService.CreatePlayerAsync(newPlayer);
             PlayerName.Text = string.Empty;
-            LoadPlayers();
-
-
+            await LoadPlayers();
         }
-        
+
         private async Task DeletePlayer(int playerId)
         {
-            var playerService = new PlayerService();
-            await playerService.DeletePlayerAsync(playerId);
-            LoadPlayers();
+            await viewModel.DeletePlayer(playerId);
         }
 
-
-
-        private async void RefreshButton_Clicked(object sender, EventArgs e)
+        private async void RefreshView_Refreshing(object sender, EventArgs e)
         {
-            await myImage.RotateTo(360, 1000);
-            LoadPlayers();
-            await myImage.RotateTo(0, 0);
+            await viewModel.Refresh();
+            refreshView.IsRefreshing = false;
         }
+
         private async void CreatePlayerButton_Clicked(object sender, EventArgs e)
         {
             try
@@ -115,7 +71,6 @@ namespace Tafeltennis
                 if (!string.IsNullOrEmpty(PlayerName.Text))
                 {
                     await MakePlayer();
-                    await ShowFlashMessage("Player created succesfully");
                 }
                 else
                 {
@@ -125,16 +80,10 @@ namespace Tafeltennis
             catch (Exception ex)
             {
                 await DisplayAlert("Error", ex.Message, "OK");
-                if (ex.InnerException != null)
-                {
-                    await DisplayAlert("Error", ex.Message + ex.InnerException, "OK");
-
-                }
             }
-
         }
-       
-        private async Task DeletePlayerButton_Clicked(object sender, EventArgs e)
+
+        private async void DeletePlayerButton_Clicked(object sender, EventArgs e)
         {
             try
             {
@@ -142,10 +91,6 @@ namespace Tafeltennis
                 {
                     int playerId = Convert.ToInt32(button.CommandParameter);
                     await DeletePlayer(playerId);
-                    await ShowFlashMessage("Player deleted succesfully");
-
-
-
                 }
                 else
                 {
@@ -157,25 +102,8 @@ namespace Tafeltennis
                 await DisplayAlert("Error", ex.Message, "OK");
             }
         }
-        private async Task ShowFlashMessage(string message)
-        {
-            Label flashLabel = new Label
-            {
-                Text = message,
-                HorizontalOptions = LayoutOptions.CenterAndExpand,
-                VerticalOptions = LayoutOptions.CenterAndExpand,
-                BackgroundColor = Color.LightGray,
-                TextColor = Color.Black,
-                FontSize = 20
-            };
-            Layout.Children.Add(flashLabel);
-            await Task.Delay(2000);
-            Layout.Children.Remove(flashLabel);
-        }
 
+       
     }
-    
-
-
 
 }

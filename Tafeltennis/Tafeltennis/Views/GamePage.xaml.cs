@@ -4,10 +4,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using Tafeltennis.Services;
 using Xamarin.Forms;
+using Xamarin.Essentials;
+using System.IO;
+
+
 
 namespace Tafeltennis
 {
-
+    
     public partial class GamePage : ContentPage
     {
         int blue = 0;
@@ -70,7 +74,7 @@ namespace Tafeltennis
                     {
                         redWinCount++;
                         int playerId2 = int.Parse(player2.Id);
-                        await UpdatePlayer(playerId2); ;
+                        await UpdatePlayer(playerId2);
 
 
 
@@ -88,14 +92,18 @@ namespace Tafeltennis
 
 
             }
+            DependencyService.Get<ISoundPlayerService>().Play("boop.mp3");
             ClearButton.IsEnabled = true;
             BlueButton.IsEnabled = true;
             RedButton.IsEnabled = true;
 
 
         }
+       
+
         private async Task ShowConfetti()
         {
+            DependencyService.Get<ISoundPlayerService>().Play("yay.mp3");
             Random random = new Random();
             int confettiCount = 100; 
             Grid confettiContainer = new Grid
